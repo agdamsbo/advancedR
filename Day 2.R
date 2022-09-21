@@ -1,84 +1,6 @@
 library(tidyverse)
 
 #
-# fertilityplots
-# 
-
-fertilityData <- structure(list(Country = structure(c(2L, 5L, 6L, 
-                                                      9L, 11L, 12L, 13L, 14L, 15L, 16L, 17L, 18L), .Label = c("Abkhazia", 
-                                                                                                              "Afghanistan", "Akrotiri and Dhekelia", "Åland", "Albania", 
-                                                                                                              "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", 
-                                                                                                              "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", 
-                                                                                                              "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", 
-                                                                                                              "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", 
-                                                                                                              "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", 
-                                                                                                              "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", 
-                                                                                                              "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", 
-                                                                                                              "Central African Republic", "Chad", "Channel Islands", "Chile", 
-                                                                                                              "China", "Christmas Island", "Cocos Island", "Colombia", "Comoros", 
-                                                                                                              "Congo, Dem. Rep.", "Congo, Rep.", "Cook Is", "Costa Rica", "Cote d'Ivoire", 
-                                                                                                              "Croatia", "Cuba", "Cyprus", "Czech Republic", "Czechoslovakia", 
-                                                                                                              "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Germany", 
-                                                                                                              "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", 
-                                                                                                              "Eritrea and Ethiopia", "Estonia", "Ethiopia", "Faeroe Islands", 
-                                                                                                              "Falkland Is (Malvinas)", "Fiji", "Finland", "France", "French Guiana", 
-                                                                                                              "French Polynesia", "Gabon", "Gambia", "Georgia", "Germany", 
-                                                                                                              "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", 
-                                                                                                              "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", 
-                                                                                                              "Haiti", "Holy See", "Honduras", "Hong Kong, China", "Hungary", 
-                                                                                                              "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", 
-                                                                                                              "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", 
-                                                                                                              "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyz Republic", "Lao", 
-                                                                                                              "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", 
-                                                                                                              "Lithuania", "Luxembourg", "Macao, China", "Macedonia, FYR", 
-                                                                                                              "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", 
-                                                                                                              "Marshall Islands", "Martinique", "Mauritania", "Mauritius", 
-                                                                                                              "Mayotte", "Mexico", "Micronesia, Fed. Sts.", "Moldova", "Monaco", 
-                                                                                                              "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", 
-                                                                                                              "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles", 
-                                                                                                              "New Caledonia", "New Zealand", "Ngorno-Karabakh", "Nicaragua", 
-                                                                                                              "Niger", "Nigeria", "Niue", "Norfolk Island", "North Korea", 
-                                                                                                              "North Yemen (former)", "Northern Cyprus", "Northern Mariana Islands", 
-                                                                                                              "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea", 
-                                                                                                              "Paraguay", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", 
-                                                                                                              "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", 
-                                                                                                              "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", 
-                                                                                                              "Senegal", "Serbia", "Serbia and Montenegro", "Serbia excluding Kosovo", 
-                                                                                                              "Seychelles", "Sierra Leone", "Singapore", "Slovak Republic", 
-                                                                                                              "Slovenia", "Solomon Islands", "Somalia", "Somaliland", "South Africa", 
-                                                                                                              "South Korea", "South Ossetia", "South Yemen (former)", "Spain", 
-                                                                                                              "Sri Lanka", "St. Barthélemy", "St. Helena", "St. Kitts and Nevis", 
-                                                                                                              "St. Lucia", "St. Martin", "St. Vincent and the Grenadines", 
-                                                                                                              "St.-Pierre-et-Miquelon", "Sudan", "Suriname", "Svalbard", "Swaziland", 
-                                                                                                              "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", 
-                                                                                                              "Thailand", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Transnistria", 
-                                                                                                              "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", 
-                                                                                                              "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", 
-                                                                                                              "United Korea (former)\n", "United States", "Uruguay", "USSR", 
-                                                                                                              "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Virgin Islands (U.S.)", 
-                                                                                                              "Wallis et Futuna", "West Bank and Gaza", "West Germany", "Western Sahara", 
-                                                                                                              "Yemen", "Yugoslavia", "Zambia", "Zimbabwe"), class = "factor"), 
-                                `1800` = c(7, 4.6, 6.99, 6.93, 5, 6.8, 7.8, 5.64, 6.5, 5.1, 
-                                           8.1, 5.9), `1801` = c(7, 4.6, 6.99, 6.93, 5, 6.8, 7.8, 5.64, 
-                                                                 6.48, 5.1, 8.1, 5.9), `1802` = c(7, 4.6, 6.99, 6.93, 4.99, 
-                                                                                                  6.8, 7.81, 5.64, 6.46, 5.1, 8.1, 5.9), `1803` = c(7, 4.6, 
-                                                                                                                                                    6.99, 6.93, 4.99, 6.8, 7.81, 5.64, 6.44, 5.1, 8.1, 5.9), 
-                                `1804` = c(7, 4.6, 6.99, 6.93, 4.99, 6.8, 7.81, 5.64, 6.42, 
-                                           5.1, 8.1, 5.9), `1805` = c(7, 4.6, 6.99, 6.93, 4.98, 6.8, 
-                                                                      7.82, 5.64, 6.4, 5.1, 8.1, 5.9)), .Names = c("Country", 
-                                                                                                                   "1800", "1801", "1802", "1803", "1804", "1805"), row.names = c(NA, 
-                                                                                                                                                                                  -12L), class = c("tbl_df", "tbl", "data.frame"))
-
-(fertilityTidy <- fertilityData %>%
-    tidyr::pivot_longer(cols = -Country, names_to = "Year",
-                        values_to = "Fertility") %>%
-    mutate(Year = as.integer(Year)))
-
-ggplot(fertilityTidy, aes(Year, Fertility, color = Country)) + 
-  geom_point() +
-  geom_line()
-
-#
 #
 
 head(iris)
@@ -95,5 +17,157 @@ iris |> # Data set
   scale_fill_viridis(discrete = T) # Auto scales colors for color blind friendliness
 
 
+df <- dplyr::filter(gapminder::gapminder, year == 1992)
+
+head(df)
+
+library(hrbrthemes)
+
+df |> ggplot(aes(gdpPercap,lifeExp,size=pop,color=continent)) +
+  geom_point(alpha=0.5) +
+  scale_size(range = c(1, 20)) +
+  scale_x_log10()+
+  # theme_ipsum() +
+  scale_fill_viridis(discrete=TRUE, guide = "none", option="A") +
+  theme(aspect.ratio = 0.8, legend.key.width = unit(3, "line"))+ # Setting plot ratio
+  labs(title = "Gapminder for 1992",
+       x = "Gross Domestic Product (log scale)",
+       y = "Life Expectancy at birth (years)",
+       color = "Continent", size = "Population") 
+
+library(gganimate)
+
+ggplot(gapminder::gapminder,aes(gdpPercap,lifeExp,size=pop,color=continent)) +
+  geom_point(alpha=0.5) +
+  scale_size(range = c(1, 20)) +
+  scale_x_log10()+
+  # theme_ipsum() +
+  scale_fill_viridis(discrete=TRUE, guide = "none", option="A") +
+  theme(aspect.ratio = 0.8, legend.key.width = unit(3, "line"))+
+  labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') +
+  transition_time(year) +
+  ease_aes('linear') # Does not combine the output photos
+
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ), color = "blue")  
+
+sapply(mpg,is.factor)
+
+head(mpg)
+?mpg
+
+ggplot(data = mpg, aes(x = displ, y = hwy, color = displ, size = , shape = )) + 
+  geom_point()  
+
+
+df <- data.frame(abc = 1, xyz = "a")
+df$x # Partial matching
+df[, "xyz"] # Giving vector
+df[, c("abc", "xyz")] # Giving data frame
+
+df <- tibble(abc = 1, xyz = "a")
+df$x
+df[, "xyz"] # Keeping data frame
+df[, c("abc", "xyz")]
+
+var<-"mpg"
+head(mtcars)
+
+mtcars[var]
+
+df <- tibble("1" = 1:4, "2" = 3:6)
+df[["1"]]
+plot(df$`1`,df$`2`)
+df$`3` <- (df$`1`/df$`2`)
+
+
+### dplyr
+
+library(nycflights13)
+library(tidyverse)
+
+flights
+
+?flights
+
+flights |> 
+  filter(month == 1, day == 1)
+
+flights |> 
+  filter(arr_delay > 120)
+
+flights |> 
+  filter(dest %in% c("IAH", "HOU"))
+
+print(airlines)
+
+flights |> 
+  filter(carrier %in% c("UA", "AA", "DL"))
+
+flights |> 
+  filter(month %in% c(7:9))
+
+flights |> 
+  filter(arr_delay > 120 & dep_delay==0)
+
+flights |> 
+  filter(dep_time<=600)
+#
+# https://r4ds.had.co.nz/transform.html
+#
+flights |> arrange(!is.na(dep_time))
+
+flights |> arrange(desc(dep_delay),dep_time)
+
+flights |> mutate(speed=distance/air_time) |> arrange(desc(speed)) |> print(width=Inf)
+
+flights |> arrange(desc(distance))
+
+flights |> arrange(distance)
+
+# Selections
+
+flights |> select(all_of(c("dep_time", "dep_delay", "arr_time", "arr_delay")))
+flights |> select(dep_time, dep_delay, arr_time, arr_delay)
+flights |> select(dep_time, dep_delay, arr_time, arr_delay)
+
+flights |> select(match(c("dep_time", "dep_delay", "arr_time", "arr_delay"),names(flights)))
+
+flights |> select(any_of(vars))
+
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+select(flights, contains("TIME", ignore.case = TRUE))
+
+# Mutate
+library(lubridate)
+
+flights |> mutate(
+  dep_time_n = 
+)
+
+min_trans <- function(x){
+  ifelse(x== 2400, 0, x %/% 100*60 + x %% 100)
+}
+
+flights |> transmute(across(c(dep_time,sched_dep_time),min_trans))
+
+flights |> transmute(
+  air_time = air_time,
+  air_time_c = arr_time-dep_time # Differences due to time zones
+) |> 
+  slice_sample(n = 5e3) |> 
+  ggplot()+
+  geom_point(aes(air_time,air_time_c))+
+  geom_abline(color="red")
+
+
+flights |> 
+  transmute(
+    sched_dep_time, dep_delay, dep_time
+  )
+
+1:3+1:10
 
 
