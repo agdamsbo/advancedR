@@ -123,7 +123,7 @@ airports |>
   theme_bw(18)+
   scale_color_viridis_c(direction = -1)
 
-library(lubridate)
+
 flights |> 
   group_by(tailnum) |> 
   summarise(avg_del = mean(arr_delay,na.rm=TRUE)) |> 
@@ -139,4 +139,114 @@ flights |>
   labs(y="Mean delay", x="Age")
 
 
-weather
+# Memory
+
+x <- rnorm(2e4)  # Try also with n = 1e5
+
+## The old way:
+system.time({
+  current_sum <- 0
+  res <- c()
+  for (x_i in x) {
+    current_sum <- current_sum + x_i
+    res <- c(res, current_sum)
+  }
+})
+
+## Be smart, do like this:
+
+system.time({
+  current_sum <- 0
+  res2 <- double(length(x))
+  for (i in seq_along(x)) {
+    current_sum <- current_sum + x[i]
+    res2[i] <- current_sum
+  }
+})
+
+# From R >= 3.4
+system.time({
+  current_sum <- 0
+  res4 <- c()
+  for (i in seq_along(x)) {
+    current_sum <- current_sum + x[i]
+    res4[i] <- current_sum
+  }
+})
+
+n <- 1e3
+max <- 1:1000
+system.time({
+  mat <- NULL
+  for (m in max) {
+    mat <- cbind(mat, runif(n, max = m))
+  }
+})
+
+## Vectorisation
+
+### Slow
+monte_carlo <- function(N) {
+  
+  hits <- 0
+  for (i in seq_len(N)) {
+    u1 <- runif(1)
+    u2 <- runif(1)
+    if (u1 ^ 2 > u2) {
+      hits <- hits + 1
+    }
+  }
+  
+  hits / N
+}
+
+### Hurtig
+monte_carlo2 <- function(N) {
+  mean(runif(N) ^ 2 > runif(N))
+}
+
+### Test
+N=1e3
+microbenchmark::microbenchmark(
+  monte_carlo(N),
+  monte_carlo2(N)
+)
+
+
+# Algebra
+
+## Optimisation exercise
+set.seed(1)
+N <- 1e4
+x <- 0
+count <- 0
+for (i in seq_len(N)){
+  y <- rnorm(1)
+  x <- x + y
+  if (x < 0) count <- count + 1
+}
+count / N
+
+mean(cumsum(rnorm(N)) < 0) # Equivalent
+
+## Optimisation exercise
+mat <- as.matrix(mtcars)
+ind <- seq_len(nrow(mat))
+mat_big <- mat[rep(ind, 1000), ]  ## 1000 times bigger dataset
+last_row <- mat_big[nrow(mat_big), ]
+
+### Orig
+system.time({
+  for (j in 1:ncol(mat_big)) {
+    for (i in 1:nrow(mat_big)) {
+      mat_big[i, j] <- 10 * mat_big[i, j] * last_row[j]
+    }
+  }
+})
+
+### Optimised
+system.time(sweep(mat_big, MARGIN = 2, STATS = 10 * last_row, FUN = '*'))
+
+
+
+
