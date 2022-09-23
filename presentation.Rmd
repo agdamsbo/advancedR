@@ -156,5 +156,10 @@ for (i in seq_along(ls)){
 plot_grid(ps[[1]],ps[[2]],ncol=2,labels=ls)
 ```
 
+## Get the package
 
+<b>
 
+remotes::install_github("agdamsbo/stRoke")
+
+<b>
