@@ -1,10 +1,16 @@
 ---
-title: "Presentation"
-author: "AGDamsbo"
+title: "Advanced R | Presentation"
+author: "AG Damsbo"
 date: "`r Sys.Date()`"
-output: 
+output:
+  ioslides_presentation:
+    footer: AG Damsbo, 2022. Contains unpublished data. No pictures please!
+    incremental: true
+    widescreen: true
+    transition: faster
+    logo: man/figures/hexlogo.png
   slidy_presentation:
-    footer: "AG Damsbo, 2022. Contains unpublished data. No pictures please!"
+    footer: AG Damsbo, 2022. Contains unpublished data. No pictures please!
 ---
 
 ```{r setup, include=FALSE}
@@ -29,20 +35,20 @@ library(stRoke)
 - Optimisation of functions
 - Visualising clinical data
 
-## New cpr_sex()  -to-  cpr_female()
+## New cpr_sex()  -to-  cpr_female() {.smaller}
 
 ```{r}
 print(daDoctoR::cpr_sex)
 ```
 
-## (continued)
+## (continued) {.smaller}
 
 ```{r}
 print(stRoke::cpr_female)
 ```
 
 
-## Testing vectorised version of cpr_female()
+## Testing vectorised version of cpr_female() {.smaller}
 
 ```{r echo = TRUE}
 fsd<-sample(c("231045-0637", "010115-4000",
@@ -56,20 +62,20 @@ microbenchmark::microbenchmark(
 ```
 
 
-## stRoke::cpr_check
+## daDoctoR::cpr_check {.smaller}
 
 ```{r}
 print(daDoctoR::cpr_check)
 ```
 
-## stRoke::cpr_check
+## stRoke::cpr_check {.smaller}
 
 ```{r}
 print(stRoke::cpr_check)
 ```
 
 
-## Testing vectorised version
+## Testing vectorised version {.smaller}
 
 ```{r echo = TRUE}
 microbenchmark::microbenchmark(
@@ -80,9 +86,7 @@ microbenchmark::microbenchmark(
 ## Clinical data
 
 ```{r include=FALSE}
-library(eulerr)
 library(dplyr)
-library(gtsummary)
 library(cowplot)
 df<-read.csv("data/mfi.csv")
 df <- df |> mutate(across(starts_with("mfi_"),~.== "fatigue"),
@@ -92,16 +96,17 @@ df <- df |> mutate(across(starts_with("mfi_"),~.== "fatigue"),
 ```
 
 ```{r echo=TRUE}
+library(gtsummary)
 theme_gtsummary_compact()
 tbl_summary(df, by = "sex") |>
   add_overall()
 ```
 
-## Fatigue, wellbeing and depression
+## Code - Fatigue, wellbeing and depression  {.smaller}
 
-```{r}
+```{r echo=TRUE}
 cs <- viridis::viridis_pal(alpha = .2, begin = 0, end = 1, direction = 1, option = "D")
-plot(euler(df|>transmute("General fatigue" = mfi_gen_bin_1,
+p <- plot(eulerr::euler(df|>transmute("General fatigue" = mfi_gen_bin_1,
                            "Decreased wellbeing" = who5_cut_1,
                            "Depressive symptoms" = mdi_bin_1),
            shape="ellipse"),
@@ -111,21 +116,28 @@ plot(euler(df|>transmute("General fatigue" = mfi_gen_bin_1,
      labels = list(font = 4))
 ```
 
+## Plot - Fatigue, wellbeing and depression
 
-## Euler plot fatigue by sex
+```{r}
+p
+```
 
-```{r include=FALSE}
+
+
+## Code - Euler plot fatigue by sex {.smaller}
+
+```{r echo=TRUE}
 colnames(df)[1:5]<-c("general","physical","mental","motivation","activity")
 
 fs <- list()
 ls <- levels(factor(df$sex))
 for (i in seq_along(ls)){
-  fs[[i]] <- euler(df|>filter(sex==ls[i])|>select(1:5),shape="ellipse")
+  fs[[i]] <- eulerr::euler(df|>filter(sex==ls[i])|>select(1:5),shape="ellipse")
   names(fs)[i]<-ls[i]
   }
 ```
 
-```{r}
+```{r echo=TRUE}
 ps<-list()
 
 for (i in seq_along(ls)){
@@ -137,6 +149,8 @@ for (i in seq_along(ls)){
   names(ps)[i]<-ls[i]
 }
 ```
+
+## Plots - Euler plot fatigue by sex
 
 ```{r echo=TRUE}
 plot_grid(ps[[1]],ps[[2]],ncol=2,labels=ls)
