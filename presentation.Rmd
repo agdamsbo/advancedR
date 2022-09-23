@@ -34,6 +34,7 @@ library(stRoke)
 - Package: [stRoke](https://agdamsbo.github.io/stRoke/)
 - Optimisation of functions
 - Visualising clinical data
+- <img src="man/figures/day12.jpeg" align="center" width="60%" />
 
 ## New cpr_sex()  -to-  cpr_female() {.smaller}
 
@@ -46,7 +47,6 @@ print(daDoctoR::cpr_sex)
 ```{r}
 print(stRoke::cpr_female)
 ```
-
 
 ## Testing vectorised version of cpr_female() {.smaller}
 
@@ -67,6 +67,10 @@ microbenchmark::microbenchmark(
 ```{r}
 print(daDoctoR::cpr_check)
 ```
+##
+
+<img src="man/figures/thinking.jpeg" align="center" width="100%"/>
+
 
 ## stRoke::cpr_check {.smaller}
 
